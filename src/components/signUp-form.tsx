@@ -15,20 +15,16 @@ import { useContext, useState } from "react";
 import { Post } from "@/services/api";
 import { AuthContext } from "@/context/AuthProvider";
 
-export function LoginForm({
+export function SignUpForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const url: string = "http://localhost:5432/login";
+  const url: string = "http://localhost:5432/signUp";
   const AuthSettings = useContext(AuthContext);
   const navigate = useNavigate();
   function handleEmail(e: any) {
     setEmail(e.target.value ?? "");
-  }
-  function handlePassword() {
-    setPassword(e.target.value ?? "");
   }
   async function get() {
     return {
@@ -38,7 +34,7 @@ export function LoginForm({
       data: { user: {}, userToken: "azd" },
     };
   }
-  async function login() {
+  async function sign() {
     let ret = { status: 400, ok: 0, message: "Invalid url" };
     try {
       if (url) {
@@ -46,15 +42,10 @@ export function LoginForm({
         ret = await get();
 
         if (ret.ok === 1) {
-          //context update
-          await AuthSettings.setUser((prev: any) => {
-            return ret.data.user;
-          });
-          await AuthSettings.setUserToken((prev: any) => {
-            return ret.data.userToken;
-          });
+          //later for push notification ->
+          //display(ret.message)
           //redirect
-          navigate("/");
+          navigate("/login");
         } else {
           //error logging
           //later for push notification ->
@@ -72,7 +63,7 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Welcome back</CardTitle>
+          <CardTitle className="text-xl">Welcome</CardTitle>
           <CardDescription></CardDescription>
         </CardHeader>
         <CardContent>
@@ -81,7 +72,7 @@ export function LoginForm({
               <div className="flex flex-col gap-4"></div>
               <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                 <span className="bg-card text-muted-foreground relative z-10 px-2">
-                  Login with
+                  Sign Up with
                 </span>
               </div>
               <div className="grid gap-6">
@@ -95,31 +86,13 @@ export function LoginForm({
                     onChange={handleEmail}
                   />
                 </div>
-                <div className="grid gap-3">
-                  <div className="flex items-center">
-                    <Label htmlFor="password">Password</Label>
-                    <Link
-                      to="/forgot"
-                      className="ml-auto text-sm underline-offset-4 hover:underline"
-                    >
-                      Forgot your password?
-                    </Link>
-                  </div>
-                  <Input
-                    id="password"
-                    type="password"
-                    required
-                    placeholder="********"
-                    onChange={handlePassword}
-                  />
-                </div>
-                <Button onClick={login} type="button" className="w-full">
-                  Login
+                <Button onClick={sign} type="button" className="w-full">
+                  Sign Up
                 </Button>
               </div>
               <div className="text-center text-sm">
-                Don&apos;t have an account?
-                <Link to="/signup">Sign up</Link>
+                Already have an account?
+                <Link to="/login"> Login</Link>
               </div>
             </div>
           </form>

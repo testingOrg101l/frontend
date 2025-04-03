@@ -15,20 +15,18 @@ import { useContext, useState } from "react";
 import { Post } from "@/services/api";
 import { AuthContext } from "@/context/AuthProvider";
 
-export function LoginForm({
+export function ForgotForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [recoveryStatus, setRecoveryStatus] = useState<Boolean>(false);
   const url: string = "http://localhost:5432/login";
   const AuthSettings = useContext(AuthContext);
   const navigate = useNavigate();
   function handleEmail(e: any) {
     setEmail(e.target.value ?? "");
-  }
-  function handlePassword() {
-    setPassword(e.target.value ?? "");
   }
   async function get() {
     return {
@@ -72,7 +70,7 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Welcome back</CardTitle>
+          <CardTitle className="text-xl">Recover Password</CardTitle>
           <CardDescription></CardDescription>
         </CardHeader>
         <CardContent>
@@ -81,7 +79,7 @@ export function LoginForm({
               <div className="flex flex-col gap-4"></div>
               <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                 <span className="bg-card text-muted-foreground relative z-10 px-2">
-                  Login with
+                  Recover with
                 </span>
               </div>
               <div className="grid gap-6">
@@ -95,31 +93,21 @@ export function LoginForm({
                     onChange={handleEmail}
                   />
                 </div>
-                <div className="grid gap-3">
-                  <div className="flex items-center">
-                    <Label htmlFor="password">Password</Label>
-                    <Link
-                      to="/forgot"
-                      className="ml-auto text-sm underline-offset-4 hover:underline"
-                    >
-                      Forgot your password?
-                    </Link>
-                  </div>
-                  <Input
-                    id="password"
-                    type="password"
-                    required
-                    placeholder="********"
-                    onChange={handlePassword}
-                  />
-                </div>
-                <Button onClick={login} type="button" className="w-full">
+                <Button
+                  disabled={recoveryStatus}
+                  onClick={login}
+                  type="button"
+                  className="w-full"
+                >
                   Login
                 </Button>
               </div>
               <div className="text-center text-sm">
                 Don&apos;t have an account?
-                <Link to="/signup">Sign up</Link>
+                <Link to="/signup"> Sign up</Link>
+              </div>
+              <div className="text-center text-sm">
+                Account Recovered ?<Link to="/login"> Login </Link>
               </div>
             </div>
           </form>
