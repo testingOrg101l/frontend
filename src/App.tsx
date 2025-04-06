@@ -16,12 +16,14 @@ function App() {
   //change auth and work on home page
   //addrouting
   const AuthSettings = useContext(AuthContext);
+
   const [auth, setAuth] = useState<Boolean>(
     AuthSettings.userToken ? true : false
   );
   //je suis azer 123 azd azdazd
 
   // const navigate = useNavigate();
+
   useEffect(() => {
     //   navigate("/login");
     console.log(AuthSettings.userToken + "done ");

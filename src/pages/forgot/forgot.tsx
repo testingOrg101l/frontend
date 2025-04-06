@@ -1,6 +1,6 @@
 import React from "react";
-import { LoginForm } from "../../components/login-form";
-import { ForgotForm } from "@/components/forgot-form";
+import { LoginForm } from "../../components/specific/login-form";
+import { ForgotForm } from "@/components/specific/forgot-form";
 function Forgot() {
   return (
     <>

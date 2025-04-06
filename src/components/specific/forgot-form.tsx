@@ -10,8 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "@/services/auth";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Post } from "@/services/api";
 import { AuthContext } from "@/context/AuthProvider";
 
@@ -20,14 +19,15 @@ export function ForgotForm({
   ...props
 }: React.ComponentProps<"div">) {
   const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [timing, setTiming] = useState<number>(0);
   const [recoveryStatus, setRecoveryStatus] = useState<Boolean>(false);
-  const url: string = "http://localhost:5432/login";
+  const url: string = "http://localhost:5432/recover";
   const AuthSettings = useContext(AuthContext);
   const navigate = useNavigate();
   function handleEmail(e: any) {
     setEmail(e.target.value ?? "");
   }
+
   async function get() {
     return {
       status: 400,
@@ -37,22 +37,16 @@ export function ForgotForm({
     };
   }
   async function login() {
+    setRecoveryStatus(true);
+    setTiming(5);
     let ret = { status: 400, ok: 0, message: "Invalid url" };
     try {
       if (url) {
-        //   ret = await Post(url, { email: email, password: password });
+        //   ret = await Post(url, { email: email });
         ret = await get();
 
         if (ret.ok === 1) {
-          //context update
-          await AuthSettings.setUser((prev: any) => {
-            return ret.data.user;
-          });
-          await AuthSettings.setUserToken((prev: any) => {
-            return ret.data.userToken;
-          });
-          //redirect
-          navigate("/");
+          //recovery update
         } else {
           //error logging
           //later for push notification ->
@@ -65,7 +59,22 @@ export function ForgotForm({
       console.log(e.message + " " + e.stack);
     }
   }
-
+  useEffect(() => {
+    let id: any;
+    let intid: any;
+    if (recoveryStatus) {
+      intid = setInterval(() => {
+        setTiming((prev) => Math.max(prev - 1, 0));
+      }, 1000);
+      id = setTimeout(() => {
+        setRecoveryStatus(false);
+      }, 6000);
+    }
+    return () => {
+      clearTimeout(id);
+      clearInterval(intid);
+    };
+  }, [recoveryStatus]);
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -99,7 +108,8 @@ export function ForgotForm({
                   type="button"
                   className="w-full"
                 >
-                  Login
+                  Recover
+                  {recoveryStatus && ` (${timing})`}
                 </Button>
               </div>
               <div className="text-center text-sm">

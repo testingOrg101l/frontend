@@ -118,3 +118,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+.column {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
