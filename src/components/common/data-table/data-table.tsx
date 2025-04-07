@@ -240,7 +240,7 @@ export function DataTable({
 }: {
   data: z.infer<typeof schema>[];
 }) {
-  const [data, setData] = React.useState(() => initialData);
+  const [data, setData] = React.useState<any[]>(initialData);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -264,6 +264,9 @@ export function DataTable({
     [data]
   );
 
+  React.useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
   const table = useReactTable({
     data,
     columns,
@@ -289,6 +292,10 @@ export function DataTable({
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
+  function resetData() {
+    setData([]);
+    localStorage.removeItem("data");
+  }
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     if (active && over && active.id !== over.id) {
@@ -330,18 +337,11 @@ export function DataTable({
       });
     }
   }
-  function reset() {
-    //popup check func  TODO
-
-    setData([]);
-    localStorage.setItem("data", "");
-  }
   return (
     <Tabs
       defaultValue="outline"
       className="w-full flex-col justify-start gap-6"
     >
-      <button onClick={reset}>Reset</button>
       <div className="flex items-center justify-between px-4 lg:px-6">
         <Label htmlFor="view-selector" className="sr-only">
           View
@@ -390,6 +390,7 @@ export function DataTable({
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
+          <Button onClick={resetData}>Reset Data</Button>
         </div>
       </div>
       <TabsContent
