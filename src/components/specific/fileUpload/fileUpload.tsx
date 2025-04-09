@@ -4,6 +4,7 @@ import * as XLSX from "xlsx";
 import styles from "./fileUPload.module.css";
 interface filePropsType {
   setData: any;
+  dataKey: string;
 }
 interface converterType {
   firstname?: string;
@@ -20,7 +21,7 @@ interface personType {
 export default function FileUpload(fileProps: filePropsType) {
   const [data, setData] = useState<any[]>([]);
   const [file, setFile] = useState<object>({ name: "" });
-
+  const dataKey = fileProps.dataKey;
   const dataSetter = fileProps.setData;
   const converter: converterType = {
     firstname: "firstName",
@@ -47,7 +48,7 @@ export default function FileUpload(fileProps: filePropsType) {
 
       dataSetter((prev: []) => {
         localStorage.setItem(
-          "data",
+          dataKey,
           JSON.stringify([...prev, ...reformedData])
         );
         return [...prev, ...reformedData];

@@ -5,26 +5,24 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 //import data from "@/app/dashboard/data.json";
 import FileUpload from "@/components/specific/fileUpload/fileUpload";
+import Steppers from "@/components/specific/steppers/steppers";
+import Dashboard from "../dashboard/dashboard";
 function Home() {
-  const localData = JSON.parse(localStorage.getItem("data")) ?? [];
+  const [steppers, setSteppers] = useState<Boolean>(true);
   const navigate = useNavigate();
   const AuthSettings = useContext(AuthContext);
-  const [data, setData] = useState<any[]>(localData);
+
   function logout() {
     // AuthSettings.setUser(null)
     AuthSettings.setUserToken(null);
     navigate("/");
   }
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   return (
     <>
       <div>Home</div>
       <Button onClick={logout}>Logout</Button>
-      <DataTable data={data} />
-      <FileUpload setData={setData} />
+      {steppers ? <Steppers /> : <Dashboard />}
     </>
   );
 }

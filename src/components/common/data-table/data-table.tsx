@@ -237,8 +237,10 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
 
 export function DataTable({
   data: initialData,
+  dataKey: dataKey,
 }: {
   data: z.infer<typeof schema>[];
+  dataKey: string;
 }) {
   const [data, setData] = React.useState<any[]>(initialData);
   const [rowSelection, setRowSelection] = React.useState({});
@@ -294,7 +296,7 @@ export function DataTable({
 
   function resetData() {
     setData([]);
-    localStorage.removeItem("data");
+    localStorage.removeItem(dataKey);
   }
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
