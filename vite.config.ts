@@ -12,7 +12,16 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
+    /*
     force: true,
-    exclude: ["sonner", "shadcn"],
+    
+    include: [
+      "date-fns",
+      "react-day-picker",
+      "@radix-ui/react-popover",
+      // anything else you constantly use
+    ],*/
+    exclude: ["vaul", "@radix-ui/react-popover"],
+    //exclude: ["sonner", "shadcn"],
   },
 });

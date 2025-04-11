@@ -11,11 +11,16 @@ import Home from "./pages/home/home";
 import NotFound from "./pages/fallback/notfound";
 import { AuthContext } from "./context/AuthProvider";
 import Forgot from "./pages/forgot/forgot";
+import HomeApp from "./pages/home/App";
+import { PopupContext } from "./context/PopupProvider";
+import Shade from "./components/common/shader";
 
 function App() {
   //change auth and work on home page
   //addrouting
   const AuthSettings = useContext(AuthContext);
+  const PopupSettings = useContext(PopupContext);
+  const [shader, setShader] = useState<boolean>(false);
 
   const [auth, setAuth] = useState<Boolean>(
     AuthSettings.userToken ? true : false
@@ -33,28 +38,31 @@ function App() {
   useEffect(() => {
     console.log(AuthSettings.userToken + "done ");
   }, []);
+
+  useEffect(() => {
+    setShader(PopupSettings.popup);
+  }, [PopupSettings.popup]);
   return (
-    <>
+    <div>
+      {shader && <Shade />}
       <h1>Layout</h1>
       <Router>
         <Routes>
           {!auth ? (
             <>
               <Route index element={<Login />} />
-              <Route path="/login/*" element={<Login />} />
               <Route path="/signup/*" element={<SignUp />} />
               <Route path="/forgot/*" element={<Forgot />} />
             </>
           ) : (
             <>
-              <Route index element={<Home />} />
-              <Route path="/home/*" element={<Home />} />
+              <Route index element={<HomeApp />} />
             </>
           )}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
-    </>
+    </div>
   );
 }
 

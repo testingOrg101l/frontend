@@ -7,7 +7,7 @@ export default function ProgressBar({ page: page }: { page: number }) {
         className={styles.point}
         style={{
           border: page == 1 ? "0.01em solid black" : "none",
-          backgroundColor: page > 1 ? "green" : "rgb(206, 199, 199)",
+          backgroundColor: page > 1 ? "#0B984A" : "rgb(206, 199, 199)",
         }}
       ></div>
       <span className={styles.line}></span>
@@ -15,7 +15,7 @@ export default function ProgressBar({ page: page }: { page: number }) {
         className={styles.point}
         style={{
           border: page == 2 ? "0.01em solid black" : "none",
-          backgroundColor: page > 2 ? "green" : "rgb(206, 199, 199)",
+          backgroundColor: page > 2 ? "#0B984A" : "rgb(206, 199, 199)",
         }}
       ></div>
       <span className={styles.line}></span>
@@ -23,7 +23,7 @@ export default function ProgressBar({ page: page }: { page: number }) {
         className={styles.point}
         style={{
           border: page == 3 ? "0.01em solid black" : "none",
-          backgroundColor: page > 3 ? "green" : "rgb(206, 199, 199)",
+          backgroundColor: page > 3 ? "#0B984A" : "rgb(206, 199, 199)",
         }}
       ></div>{" "}
       <span className={styles.line}></span>
@@ -31,7 +31,7 @@ export default function ProgressBar({ page: page }: { page: number }) {
         className={styles.point}
         style={{
           border: page == 4 ? "0.01em solid black" : "none",
-          backgroundColor: page > 4 ? "green" : "rgb(206, 199, 199)",
+          backgroundColor: page > 4 ? "#0B984A" : "rgb(206, 199, 199)",
         }}
       ></div>{" "}
       <span className={styles.line}></span>
