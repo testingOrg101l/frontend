@@ -21,12 +21,7 @@ export function DatePicker({
   date: Date | null;
 }) {
   const [date, setDate] = React.useState<Date>(mainDate ?? new Date());
-  React.useEffect(() => {
-    console.log("here");
-    console.log(mainDate);
-    console.log(date);
-  }),
-    [];
+
   React.useEffect(() => {
     setMainDate(date);
   }, [date]);

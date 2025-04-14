@@ -10,6 +10,7 @@ import { useNavigate } from "react-router";
 import { StepperContext } from "@/context/StepperProvider";
 import { PopupContext } from "@/context/PopupProvider";
 import DateStepper from "@/pages/dateStepper/dateStepper";
+import BlockStepper from "@/pages/blockStepper/blockStepper";
 
 export default function Steppers() {
   const localStudentData =
@@ -21,6 +22,13 @@ export default function Steppers() {
     localStorage.getItem("fromDate") ?? JSON.stringify(new Date());
   const localToDate =
     localStorage.getItem("toDate") ?? JSON.stringify(new Date());
+  const localBlocks =
+    localStorage.getItem("blocks") ??
+    JSON.stringify([
+      { id: crypto.randomUUID(), from: 1, to: 1, block: "hi1" },
+      { id: crypto.randomUUID(), from: 1, to: 1, block: "hi2" },
+      { id: crypto.randomUUID(), from: 1, to: 1, block: "hi3" },
+    ]);
   const sliderRef = useRef<HTMLDivElement>(null);
   const [studentData, setStudentData] = useState<any[]>(localStudentData);
   const [professorData, setProfessorData] = useState<any[]>(localProfessorData);
@@ -30,6 +38,7 @@ export default function Steppers() {
   const [toDate, setToDate] = useState<Date | null>(
     new Date(JSON.parse(localToDate))
   );
+  const [blocks, setBlocks] = useState<object[]>(JSON.parse(localBlocks));
 
   const [pagination, setPagination] = useState<number>(1);
 
@@ -152,6 +161,8 @@ export default function Steppers() {
           id={styles.paging}
           style={{ transform: `translateX(${-100 * (pagination - 1)}%)` }}
         >
+          {/*stepper pages*/}
+          <BlockStepper data={blocks} setData={setBlocks} />
           <DateStepper
             fromDate={fromDate}
             toDate={toDate}
