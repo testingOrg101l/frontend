@@ -29,11 +29,22 @@ export default function BlockElement({
       const res = prev.filter((element) => {
         return element.id != id;
       });
-      console.log(res);
+      //save statically
+      localStorage.setItem("blocks", JSON.stringify(res));
       return res;
     });
   }
-  useEffect(() => {}, [to, from, block]);
+  useEffect(() => {
+    setData((prev: blockType[]) => {
+      let search = prev.findIndex((element: blockType) => element.id == id);
+
+      return [
+        ...prev.slice(0, search),
+        { id: id, block: block, from: from, to: to },
+        ...prev.slice(search + 1),
+      ];
+    });
+  }, [to, from, block]);
   return (
     <div className="spanner">
       <div className="spanner" id={styles.aligner}>

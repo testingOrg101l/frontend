@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./blockStepper.module.css";
 import { object } from "zod";
 import BlockElement from "@/components/specific/blockElement/BlockElement";
@@ -11,7 +11,11 @@ export default function BlockStepper({
   data: blockType[];
   setData: any;
 }) {
+  const adderButton = useRef<HTMLButtonElement>(null);
+  const [adderPosition, setAdderPosition] = useState<number>(3);
   function addItem() {
+    //*add item
+
     const newEl: blockType = {
       from: 1,
       to: 1,
@@ -24,13 +28,15 @@ export default function BlockStepper({
   }
   return (
     <div id={styles.container}>
+      <Button ref={adderButton} onClick={addItem}>
+        +
+      </Button>
       {data.map((e: object) => {
         const el = e as blockType;
         return (
           <BlockElement key={el.id} id={el.id} data={el} setData={setData} />
         );
       })}
-      <Button onClick={addItem}>+</Button>
     </div>
   );
 }

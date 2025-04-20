@@ -102,12 +102,37 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const schema = z.object({
   id: z.number(),
-  firstName: z.string(),
-  lastName: z.string(),
-  email: z.string(),
+  name: z.string(),
+  grade: z.number(),
+  rapporteur: z.number(),
+  president: z.number(),
+  encadrant: z.number(),
+  student1: z.number(),
+  student2: z.number(),
 });
 
 // Create a separate component for the drag handle
+
+function getStudent(id: number) {
+  const localStudents = localStorage.getItem("studentData");
+  if (!localStudents) return "N/A";
+  const studentsList = JSON.parse(localStudents);
+  for (let student of studentsList) {
+    if (student.id == id) return student.firstName + " " + student.lastName;
+  }
+  return "N/A";
+}
+
+function getProf(id: number) {
+  const localprofessors = localStorage.getItem("professorData");
+  if (!localprofessors) return "N/A";
+  const professorsList = JSON.parse(localprofessors);
+  for (let professor of professorsList) {
+    if (professor.id == id)
+      return professor.firstName + " " + professor.lastName;
+  }
+  return "N/A";
+}
 function DragHandle({ id }: { id: number }) {
   const { attributes, listeners } = useSortable({
     id,
@@ -175,35 +200,104 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
   },
 
   {
-    accessorKey: "firstName",
-    header: "FirstName",
+    accessorKey: "name",
+    header: "Name",
     cell: ({ row }) => (
       <div className="" id={styles.leftAlign}>
         <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {row.original.firstName}
+          {row.original.name}
         </Badge>
       </div>
     ),
   },
 
   {
-    accessorKey: "lastName",
-    header: "LastName",
+    accessorKey: "grade",
+    header: "Grade",
     cell: ({ row }) => (
       <div className="" id={styles.leftAlign}>
         <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {row.original.lastName}
+          {row.original.grade ? row.original.grade : "Not Graded Yet"}
         </Badge>
       </div>
     ),
   },
   {
-    accessorKey: "email",
-    header: "Email",
+    accessorKey: "rapporteur",
+    header: "Rapporteur",
     cell: ({ row }) => (
       <div className="" id={styles.leftAlign}>
         <Badge variant="outline" className="text-muted-foreground px-1.5">
-          {row.original.email}
+          {row.original.rapporteur
+            ? getProf(row.original.rapporteur) +
+              " (" +
+              row.original.rapporteur +
+              ")"
+            : "N/A"}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "encadrant",
+    header: "Encadrant",
+    cell: ({ row }) => (
+      <div className="" id={styles.leftAlign}>
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          {row.original.encadrant
+            ? getProf(row.original.encadrant) +
+              " (" +
+              row.original.encadrant +
+              ")"
+            : "N/A"}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "president",
+    header: "President",
+    cell: ({ row }) => (
+      <div className="" id={styles.leftAlign}>
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          {row.original.president
+            ? getProf(row.original.president) +
+              " (" +
+              row.original.president +
+              ")"
+            : "N/A"}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "student1",
+    header: "Student1",
+    cell: ({ row }) => (
+      <div className="" id={styles.leftAlign}>
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          {row.original.student1
+            ? getStudent(row.original.student1) +
+              " (" +
+              row.original.student1 +
+              ")"
+            : "N/A"}
+        </Badge>
+      </div>
+    ),
+  },
+  {
+    accessorKey: "student2",
+    header: "Student2",
+    cell: ({ row }) => (
+      <div className="" id={styles.leftAlign}>
+        <Badge variant="outline" className="text-muted-foreground px-1.5">
+          {row.original.student2
+            ? getStudent(row.original.student2) +
+              " (" +
+              row.original.student2 +
+              ")"
+            : "N/A"}
         </Badge>
       </div>
     ),
@@ -235,7 +329,7 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
   );
 }
 
-export function DataTable({
+export function DataProjectTable({
   data: initialData,
   dataKey: dataKey,
   setExternalData: setExternalData,

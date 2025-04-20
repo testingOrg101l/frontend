@@ -1,34 +1,35 @@
 import React, { useEffect, useState } from "react";
 
 import * as XLSX from "xlsx";
-import styles from "./fileUPload.module.css";
-
+import styles from "./projectFileUpload.module.css";
 interface filePropsType {
   setData: any;
   dataKey: string;
 }
 interface converterType {
-  firstname?: string;
-  lastname?: string;
-  email?: string;
-  id?: string;
+  id: string;
+  grade: string;
+  name: string;
+  rapporteur: string;
+  president: string;
+  encadrant: string;
+  student1?: string;
+  student2?: string;
 }
-interface projectType {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  id?: number;
-}
-export default function FileUpload(fileProps: filePropsType) {
+export default function ProjectFileUpload(fileProps: filePropsType) {
   const [data, setData] = useState<any[]>([]);
   const [file, setFile] = useState<object>({ name: "" });
   const dataKey = fileProps.dataKey;
   const dataSetter = fileProps.setData;
   const converter: converterType = {
-    firstname: "firstName",
-    lastname: "lastName",
     id: "id",
-    email: "email",
+    grade: "grade",
+    name: "name",
+    rapporteur: "rapporteur",
+    president: "president",
+    encadrant: "encadrant",
+    student1: "student1",
+    student2: "student2",
   };
   function convertData() {
     let reformedData = [];
@@ -41,8 +42,17 @@ export default function FileUpload(fileProps: filePropsType) {
         let index = 0;
         for (let attribute of p) {
           const keyAtt = headerArray[index++].toLowerCase().trim();
-          if (converter.hasOwnProperty(keyAtt))
+
+          console.log(attribute);
+          if (!attribute) continue;
+          if (typeof attribute == "string" && !attribute.trim().length)
+            continue;
+          console.log("attribute vvalid");
+          if (converter.hasOwnProperty(keyAtt)) {
+            //  if(attribute.trim().length)
+
             person[converter[keyAtt]] = attribute;
+          }
         }
         reformedData.push(person);
       }

@@ -42,6 +42,14 @@ export default function ProgressBar({ page: page }: { page: number }) {
           backgroundColor: page > 5 ? "green" : "rgb(206, 199, 199)",
         }}
       ></div>
+      <span className={styles.line}></span>
+      <div
+        className={styles.point}
+        style={{
+          border: page == 6 ? "0.01em solid black" : "none",
+          backgroundColor: page > 6 ? "green" : "rgb(206, 199, 199)",
+        }}
+      ></div>
     </div>
   );
 }
