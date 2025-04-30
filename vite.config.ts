@@ -11,4 +11,17 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  optimizeDeps: {
+    /*
+    force: true,
+    
+    include: [
+      "date-fns",
+      "react-day-picker",
+      "@radix-ui/react-popover",
+      // anything else you constantly use
+    ],*/
+    exclude: ["vaul", "@radix-ui/react-popover"],
+    //exclude: ["sonner", "shadcn"],
+  },
 });
