@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import Login from "./pages/login/login";
-import { BrowserRouter as Router, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Routes } from "react-router";
-import { Link } from "react-router-dom";
 import SignUp from "./pages/signup/signup";
 import Home from "./pages/home/home";
 import NotFound from "./pages/fallback/notfound";
+import Layout from "./components/layout/Layout";
+import StoreProvider from "./context/redux";
 
 function App() {
   //change auth and work on home page
@@ -22,24 +21,24 @@ function App() {
   }, []);
   return (
     <>
-      <h1>Layout</h1>
-      <Router>
-        <Routes>
-          <Route path="/signup/*" element={<SignUp />} />
-          {!auth ? (
-            <>
-              <Route index element={<Login />} />
-              <Route path="/login/*" element={<Login />} />
-            </>
-          ) : (
-            <>
-              <Route index element={<Home />} />
-              <Route path="/home/*" element={<Home />} />
-            </>
-          )}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Router>
+      <StoreProvider>
+        <Router>
+          <Routes>
+            <Route path="/signup/*" element={<SignUp />} />
+            <Route path="/signin" element={<Login />} />
+            {auth ? (
+              <Route element={<Layout />}>
+                <Route path="/" element={<Home />} />
+              </Route>
+            ) : (
+              <>
+                <Route path="/signin" element={<Login />} />
+              </>
+            )}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Router>
+      </StoreProvider>
     </>
   );
 }
