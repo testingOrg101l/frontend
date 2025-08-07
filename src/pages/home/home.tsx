@@ -20,7 +20,6 @@ function Home() {
 
   return (
     <>
-      <div>Home</div>
       <Button onClick={logout}>Logout</Button>
       {steppers ? <Steppers /> : <Dashboard />}
     </>

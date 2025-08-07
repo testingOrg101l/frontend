@@ -3,17 +3,19 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import Login from "./pages/login/login";
-import { BrowserRouter as Router, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Routes } from "react-router";
-import { Link } from "react-router-dom";
 import SignUp from "./pages/signup/signup";
 import Home from "./pages/home/home";
 import NotFound from "./pages/fallback/notfound";
+import Layout from "./components/layout/Layout";
+import StoreProvider from "./context/redux";
 import { AuthContext } from "./context/AuthProvider";
 import Forgot from "./pages/forgot/forgot";
 import HomeApp from "./pages/home/App";
 import { PopupContext } from "./context/PopupProvider";
 import Shade from "./components/common/shader";
+import { Settings } from "lucide-react";
 
 function App() {
   //change auth and work on home page
@@ -25,7 +27,6 @@ function App() {
   const [auth, setAuth] = useState<Boolean>(
     AuthSettings.userToken ? true : false
   );
-  //je suis azer 123 azd azdazd
 
   // const navigate = useNavigate();
 
@@ -45,7 +46,6 @@ function App() {
   return (
     <div>
       {shader && <Shade />}
-      <h1>Layout</h1>
       <Router>
         <Routes>
           {!auth ? (
@@ -57,6 +57,8 @@ function App() {
           ) : (
             <>
               <Route index element={<HomeApp />} />
+
+              <Route path="settings" element={<Settings />} />
             </>
           )}
           <Route path="*" element={<NotFound />} />
@@ -64,6 +66,28 @@ function App() {
       </Router>
     </div>
   );
+}
+{
+  /* <>
+      <StoreProvider>
+        <Router>
+          <Routes>
+            <Route path="/signup/*" element={<SignUp />} />
+            <Route path="/signin" element={<Login />} />
+            {auth ? (
+              <Route element={<Layout />}>
+                <Route path="/" element={<Home />} />
+              </Route>
+            ) : (
+              <>
+                <Route path="/signin" element={<Login />} />
+              </>
+            )}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Router>
+      </StoreProvider>
+    </> */
 }
 
 export default App;

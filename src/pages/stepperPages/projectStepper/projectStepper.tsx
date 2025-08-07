@@ -9,7 +9,7 @@ interface personStepperType {
   data: projectType[];
   setData: any;
 }
-export default function ProfessorStepper(props: personStepperType) {
+export default function ProjectStepper(props: personStepperType) {
   const setData = props.setData;
   const data = props.data;
   return (

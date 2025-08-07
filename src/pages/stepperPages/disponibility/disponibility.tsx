@@ -17,6 +17,10 @@ export default function Disponibility({
   const [currentProfessor, setCurrentProfessor] = useState<number>(
     parseInt(Object.keys(data)[0])
   );
+  const localProfList = localStorage.getItem("professorData")
+    ? JSON.parse(localStorage.getItem("professorData"))
+    : [];
+  const [professorsList, setProfessorsList] = useState<any[]>(localProfList);
   const selection = useRef<HTMLSelectElement>(null);
   useEffect(() => {
     console.log("cuureent");
@@ -34,6 +38,13 @@ export default function Disponibility({
     if (selection.current) {
       setCurrentProfessor(parseInt(selection.current.value));
     }
+  }
+  function getProfName(num: number) {
+    return (
+      professorsList.find((prof: any) => prof.id == num).firstName +
+      " " +
+      professorsList.find((prof: any) => prof.id == num).lastName
+    );
   }
   function handleData(e: any) {
     if (e.target) {
@@ -65,7 +76,11 @@ export default function Disponibility({
       ))}*/}
       <select onChange={handleSelection} ref={selection}>
         {currentIds.map((key: string) => {
-          return <option value={key}>{key}</option>;
+          return (
+            <option value={key}>
+              {"(" + key + ") " + getProfName(parseInt(key))}
+            </option>
+          );
         })}
       </select>
       <div className={styles.controlContainer}>

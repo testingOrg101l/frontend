@@ -5,10 +5,14 @@ import React from "react";
 interface personStepperType {
   data: any[];
   setData: any;
+  editable?: number;
 }
 export default function ProfessorStepper(props: personStepperType) {
+  console.log(props.editable);
   const setData = props.setData;
   const data = props.data;
+  const editable =
+    props.editable == undefined ? true : props.editable == 1 ? true : false;
   return (
     <div id={styles.container}>
       <h3 className={styles.title}>Professors List</h3>
@@ -17,7 +21,7 @@ export default function ProfessorStepper(props: personStepperType) {
         dataKey="professorData"
         setExternalData={setData}
       />
-      <FileUpload setData={setData} dataKey="professorData" />
+      {editable && <FileUpload setData={setData} dataKey="professorData" />}
     </div>
   );
 }
