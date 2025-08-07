@@ -14,6 +14,7 @@ import { login } from "@/services/auth";
 import { useContext, useState } from "react";
 import { Post } from "@/services/api";
 import { AuthContext } from "@/context/AuthProvider";
+import axios from "axios";
 
 export function LoginForm({
   className,
@@ -47,6 +48,8 @@ export function LoginForm({
 
         if (ret.ok === 1) {
           //context update
+          //udate headers
+          axios.AxiosHeaders;
           await AuthSettings.setUser((prev: any) => {
             return ret.data.user;
           });

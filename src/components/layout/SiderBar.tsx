@@ -2,12 +2,16 @@ import { siderBareLinks } from "@/constant/index";
 import { useAppDispatch, useAppSelector } from "@/context/redux";
 import { setIsSideBarCollapsed } from "@/state/index";
 import { LucideIcon, Menu } from "lucide-react";
-import { Link } from "react-router-dom"
-import { useLocation } from "react-router-dom"
+import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-
-const LeftSideBar = () => {
-
+const LeftSideBar = ({
+  currentPage,
+  setCurrentPage,
+}: {
+  currentPage: number;
+  setCurrentPage: (arg: number) => void;
+}) => {
   const dispatch = useAppDispatch();
   const isSideBarCollapsed = useAppSelector(
     (state) => state.global.isSideBarCollapsed
@@ -21,6 +25,7 @@ const LeftSideBar = () => {
     icon: LucideIcon;
     label: string;
     isCollapsed: any;
+    page: number;
   }
 
   const SideBarLink = ({
@@ -28,12 +33,12 @@ const LeftSideBar = () => {
     icon: Icon,
     label,
     isCollapsed,
+    page,
   }: sideBarProps) => {
     const location = useLocation();
-    const isActive =
-      href === location.pathname || (href === "/" && location.pathname === "/");
+    const isActive = currentPage == page;
     return (
-      <Link to={href}>
+      <button style={{ width: "100%" }} onClick={() => setCurrentPage(page)}>
         <div
           className={`flex items-center ${
             isCollapsed ? "justify-center" : "justify-start px-8 gap-x-2"
@@ -49,7 +54,7 @@ const LeftSideBar = () => {
             {label}{" "}
           </span>
         </div>
-      </Link>
+      </button>
     );
   };
 
@@ -64,7 +69,7 @@ const LeftSideBar = () => {
           isSideBarCollapsed ? "px-2" : "px-8"
         }`}
       >
-        <span>Image</span>
+        <span>IssatSo</span>
         <button
           className="bg-gray-100 rounded-full p-1 mr-2 "
           onClick={toggleBare}
@@ -73,11 +78,22 @@ const LeftSideBar = () => {
         </button>
       </div>
       <div className="flex-grow mt-12">
-        {siderBareLinks.map((link:sideBarProps) => (
-          <SideBarLink key={link.label} href={link.href} icon={link.icon} label={link.label} isCollapsed={isSideBarCollapsed} />
+        {siderBareLinks.map((link: sideBarProps) => (
+          <SideBarLink
+            key={link.label}
+            href={link.href}
+            icon={link.icon}
+            label={link.label}
+            isCollapsed={isSideBarCollapsed}
+            page={link.page}
+          />
         ))}
       </div>
-      <span className={`${isSideBarCollapsed ? 'hidden' : 'flex justify-center'}  text-md font-semibold mb-8 `}>
+      <span
+        className={`${
+          isSideBarCollapsed ? "hidden" : "flex justify-center"
+        }  text-md font-semibold mb-8 `}
+      >
         &copy; 2025 TejAzer
       </span>
     </div>

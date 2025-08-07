@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-
-=======
 import { DataTable } from "@/components/common/data-table/data-table";
 import { Button } from "@/components/ui/button";
 import { AuthContext } from "@/context/AuthProvider";
@@ -11,7 +7,6 @@ import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import FileUpload from "@/components/specific/fileUpload/fileUpload";
 import Steppers from "@/components/specific/steppers/steppers";
 import Dashboard from "../dashboard/dashboard";
->>>>>>> 5f211ee1f92e9633416f90010ba7cbf8dfd4247f
 function Home() {
   const [steppers, setSteppers] = useState<Boolean>(true);
   const navigate = useNavigate();
@@ -25,13 +20,8 @@ function Home() {
 
   return (
     <>
-<<<<<<< HEAD
-      <div>Homeeee</div>
-=======
-      <div>Home</div>
       <Button onClick={logout}>Logout</Button>
       {steppers ? <Steppers /> : <Dashboard />}
->>>>>>> 5f211ee1f92e9633416f90010ba7cbf8dfd4247f
     </>
   );
 }

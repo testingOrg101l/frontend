@@ -15,6 +15,7 @@ import Forgot from "./pages/forgot/forgot";
 import HomeApp from "./pages/home/App";
 import { PopupContext } from "./context/PopupProvider";
 import Shade from "./components/common/shader";
+import { Settings } from "lucide-react";
 
 function App() {
   //change auth and work on home page
@@ -26,7 +27,6 @@ function App() {
   const [auth, setAuth] = useState<Boolean>(
     AuthSettings.userToken ? true : false
   );
-  //je suis azer 123 azd azdazd
 
   // const navigate = useNavigate();
 
@@ -46,7 +46,6 @@ function App() {
   return (
     <div>
       {shader && <Shade />}
-      <h1>Layout</h1>
       <Router>
         <Routes>
           {!auth ? (
@@ -58,6 +57,8 @@ function App() {
           ) : (
             <>
               <Route index element={<HomeApp />} />
+
+              <Route path="settings" element={<Settings />} />
             </>
           )}
           <Route path="*" element={<NotFound />} />
@@ -66,7 +67,8 @@ function App() {
     </div>
   );
 }
-{/* <>
+{
+  /* <>
       <StoreProvider>
         <Router>
           <Routes>
@@ -85,6 +87,7 @@ function App() {
           </Routes>
         </Router>
       </StoreProvider>
-    </> */}
+    </> */
+}
 
 export default App;

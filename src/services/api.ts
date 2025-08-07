@@ -19,18 +19,14 @@ async function Post(url: string, data: object) {
 }
 
 async function Get(url: string, data: object) {
-  let ret = { status: 500, ok: 0, message: "Internal error: Timeout" };
+  let ret = [];
   await axios
-    .post(url, data)
+    .get(url, data)
     .then((res) => {
-      ret = res.data;
+      ret = res;
     })
     .catch((e) => {
-      ret = {
-        status: 500,
-        ok: 0,
-        message: "Network error: " + e.message + " STATUS -> " + e.status,
-      };
+      ret = [];
     });
 
   return ret;
@@ -39,7 +35,7 @@ async function Get(url: string, data: object) {
 async function Delete(url: string, data: object) {
   let ret = { status: 500, ok: 0, message: "Internal error: Timeout" };
   await axios
-    .post(url, data)
+    .delete(url, data)
     .then((res) => {
       ret = res.data;
     })

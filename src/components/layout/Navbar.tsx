@@ -3,8 +3,17 @@ import { setIsDarkmode, setIsSideBarCollapsed } from "@/state/index";
 import { Menu, Bell, Sun, Moon } from "lucide-react";
 import { useNavigate } from "react-router";
 import { Button } from "../ui/button";
+import { useContext } from "react";
+import { AuthContext } from "@/context/AuthProvider";
 
 const Navbar = () => {
+  const AuthSettings = useContext(AuthContext);
+
+  function logout() {
+    // AuthSettings.setUser(null)
+    AuthSettings.setUserToken(null);
+    navigate("/");
+  }
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const isSideBarCollapsed = useAppSelector(
@@ -46,11 +55,10 @@ const Navbar = () => {
               <Moon className="text-gray-500" size={24} />
             )}
           </button>
-          <Button onClick={()=>navigate('/signin')}>LogOut</Button>
+          <Button onClick={logout}>LogOut</Button>
           <span className="w-0 h-7 border border-solid  border-gray-200 mx-3" />
           <div className="flex justify-between items-center gap-x-3">
-            <span>Image</span>
-            <span>name</span>
+            <Button>Reset All</Button>
           </div>
         </div>
       </div>

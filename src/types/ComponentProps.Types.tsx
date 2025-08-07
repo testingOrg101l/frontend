@@ -14,3 +14,17 @@ export interface projectType {
   student1?: number;
   Student2?: number;
 }
+
+export interface scheduleType {
+  id: string;
+  grade: number;
+  name: string;
+  encadrant: string;
+  president: string;
+  rapporteur: string;
+  student1: string;
+  student2?: string;
+  date: string;
+  classroom: string;
+  session: string;
+}
